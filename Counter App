@@ -1,0 +1,64 @@
+import { useDispatch, useSelector } from 'react-redux'
+import { decrement, increment } from './reducer/counter/counterSlice'
+
+
+
+
+function App() {
+
+  const count = useSelector((state)=>state.counter.value)
+  const dispatch = useDispatch ()
+
+
+  return (
+    <div  className='container mx-auto' >
+    
+
+      <div className='p-24'>
+        <h1 className='text-8xl text-blue-900'>{count}</h1>
+      </div>
+     <div className='flex gap-x-5'>
+     <button onClick={()=>dispatch(increment())}  className='py-3 px-5 bg-blue-600 text-white font-bold' >Increment</button>
+      <button onClick={()=>dispatch(decrement())}  className='py-3 px-5 bg-red-600 text-white font-bold' >Decrement</button>
+     </div>
+    </div>
+  )
+}
+
+export default App
+
+
+=====================================================
+import { configureStore } from "@reduxjs/toolkit";
+import counterReducer from '../src/reducer/counter/counterSlice'
+
+export default  configureStore({
+    reducer:{
+        counter:counterReducer,
+    },
+})
+
+=========================================================
+import { createSlice } from "@reduxjs/toolkit";
+
+export const counterSlice = createSlice({
+    name:'counter',
+    initialState:{
+        value:100,
+    },
+reducers:{
+    increment:(state)=>{
+        state.value+=1
+    },
+    decrement: (state) => {
+        state.value -= 1
+      },
+      incrementByAmount: (state, action) => {
+        state.value += action.payload
+      },
+    },
+})
+
+export const { increment, decrement, incrementByAmount } = counterSlice.actions
+
+export default counterSlice.reducer
